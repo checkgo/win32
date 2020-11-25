@@ -2,14 +2,13 @@ package win32
 
 import (
 	"encoding/binary"
-	"golang.org/x/sys/windows"
 	"os"
 	"syscall"
 	"unsafe"
 )
 
 var (
-	modkernel32 = windows.NewLazySystemDLL("kernel32.dll")
+	modkernel32 = syscall.NewLazyDLL("kernel32.dll")
 
 	procGetModuleHandle             = modkernel32.NewProc("GetModuleHandleW")
 	procMulDiv                      = modkernel32.NewProc("MulDiv")
@@ -278,19 +277,19 @@ func GetLogicalDriveStringsW(lpBuffer []byte) (uint32, error) {
 
 func GetDiskFreeSpaceExW(path string, lpFreeBytesAvailable, lpTotalNumberOfBytes, lpTotalNumberOfFreeBytes *int64) (bool, error) {
 	diskret, _, err := procGetDiskFreeSpaceExW.Call(
-		uintptr(unsafe.Pointer(windows.StringToUTF16Ptr(path))),
+		uintptr(unsafe.Pointer(syscall.StringToUTF16Ptr(path))),
 		uintptr(unsafe.Pointer(lpFreeBytesAvailable)),
 		uintptr(unsafe.Pointer(lpTotalNumberOfBytes)),
 		uintptr(unsafe.Pointer(lpTotalNumberOfFreeBytes)))
 	return diskret != 0, err
 }
 
-func FindCloseChangeNotification(hHandle windows.Handle) bool {
+func FindCloseChangeNotification(hHandle syscall.Handle) bool {
 	ret, _, _ := procFindCloseChangeNotification.Call(uintptr(hHandle))
 	return ret != 0
 }
 
-func FindNextChangeNotification(hHandle windows.Handle) bool {
+func FindNextChangeNotification(hHandle syscall.Handle) bool {
 	ret, _, _ := procFindNextChangeNotification.Call(uintptr(hHandle))
 	return ret != 0
 }
