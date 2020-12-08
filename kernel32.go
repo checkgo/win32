@@ -394,8 +394,7 @@ func VirtualAlloc(lpAddress int, dwSize int, flAllocationType int, flProtect int
 	}
 	return ret, nil
 }
-
-// https://github.com/AllenDang/w32/pull/62/commits/08a52ff508c6b2b9b9bf5ee476109b903dcf219d
+ 
 func VirtualFreeEx(hProcess HANDLE, lpAddress, dwSize uintptr, dwFreeType uint32) bool {
 	ret, _, _ := procVirtualFreeEx.Call(
 		uintptr(hProcess),
@@ -424,8 +423,7 @@ func GetProcAddress(hProcess HANDLE, procname string) (addr uintptr, err error) 
 	return ret, nil
 }
 
-// https://msdn.microsoft.com/en-us/library/windows/desktop/ms682437(v=vs.85).aspx
-// Credit: https://github.com/contester/runlib/blob/master/win32/win32_windows.go#L577
+// https://msdn.microsoft.com/en-us/library/windows/desktop/ms682437(v=vs.85).aspx 
 //func CreateRemoteThread(hprocess HANDLE, sa *syscall.SecurityAttributes, stackSize uint32, startAddress uintptr, parameter uintptr, creationFlags uint32, threadId uint32) (HANDLE, error) {
 //	r1, _, e1 := procCreateRemoteThread.Call(
 //		uintptr(hprocess),
