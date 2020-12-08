@@ -187,8 +187,7 @@ func GetDesktopWindow() HWND {
 	ret, _, _ := procGetDesktopWindow.Call()
 	return HWND(ret)
 }
-
-// https://github.com/AllenDang/w32/pull/62/commits/bf59645b86663a54dffb94ca82683cc0610a6de3
+ 
 func GetClassNameW(hwnd HWND) string {
 	buf := make([]uint16, 255)
 	procGetClassName.Call(
@@ -198,16 +197,14 @@ func GetClassNameW(hwnd HWND) string {
 
 	return syscall.UTF16ToString(buf)
 }
-
-// https://github.com/AllenDang/w32/pull/62/commits/bf59645b86663a54dffb94ca82683cc0610a6de3
+ 
 func SetForegroundWindow(hwnd HWND) bool {
 	ret, _, _ := procSetForegroundWindow.Call(
 		uintptr(hwnd))
 
 	return ret != 0
 }
-
-// https://github.com/AllenDang/w32/pull/62/commits/bf59645b86663a54dffb94ca82683cc0610a6de3
+ 
 func FindWindowExW(hwndParent, hwndChildAfter HWND, className, windowName *uint16) HWND {
 	ret, _, _ := procFindWindowExW.Call(
 		uintptr(hwndParent),
@@ -217,8 +214,7 @@ func FindWindowExW(hwndParent, hwndChildAfter HWND, className, windowName *uint1
 
 	return HWND(ret)
 }
-
-// https://github.com/AllenDang/w32/pull/62/commits/bf59645b86663a54dffb94ca82683cc0610a6de3
+ 
 func FindWindowW(className, windowName *uint16) HWND {
 	ret, _, _ := procFindWindowW.Call(
 		uintptr(unsafe.Pointer(className)),
@@ -226,8 +222,7 @@ func FindWindowW(className, windowName *uint16) HWND {
 
 	return HWND(ret)
 }
-
-// https://github.com/AllenDang/w32/pull/62/commits/bf59645b86663a54dffb94ca82683cc0610a6de3
+ 
 func EnumChildWindows(hWndParent HWND, lpEnumFunc WNDENUMPROC, lParam LPARAM) bool {
 	ret, _, _ := procEnumChildWindows.Call(
 		uintptr(hWndParent),
@@ -1165,8 +1160,7 @@ func SetWindowsHookEx(idHook int, lpfn HOOKPROC, hMod HINSTANCE, dwThreadId DWOR
 	)
 	return HHOOK(ret)
 }
-
-// Lifted from https://github.com/kbinani/win/blob/b749091b14a8a4867e0fc93567d5c6af7b360e8f/user32.go#L5215
+ 
 func SetWinEventHook(eventMin DWORD, eventMax DWORD, hmodWinEventProc HMODULE, pfnWinEventProc WINEVENTPROC, idProcess DWORD, idThread DWORD, dwFlags DWORD) HHOOK {
 
 	ret, _, _ := procSetWinEventHook.Call(
